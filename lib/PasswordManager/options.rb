@@ -37,6 +37,8 @@ class PasswordManager::Options
       parser.on('-A', '--add', descriptions[:add]) { |option| @options[:add] = option.freeze }
       parser.on('-L', '--list', descriptions[:list]) { |option| @options[:list] = option.freeze }
 
+      parser.on('-T', '--tmp', descriptions[:tmp]) { |option| @options[:tmp] = option.freeze }
+
       parser.separator ''
       parser.separator 'The options --show, --add, --list must be associate with a specific --file.'
       parser.separator 'It\' a json file, the key is the site name and each key have an username and a password field.'
@@ -45,7 +47,7 @@ class PasswordManager::Options
 
   def valid_options!
     abort 'Error: file (option -f / --file) must be provided' if @options[:file].nil?
-    abort 'Error: can not use the options --encode, --decode, --show, --add and --list in the same time. Pick just one option' if count_set(:encode, :decode, :show, :add, :list) > 1
+    abort 'Error: can not use the options --encode, --decode, --show, --add and --list in the same time. Pick just one option' if count_set(:encode, :decode, :show, :add, :list, :tmp) > 1
   end
 
   def descriptions
@@ -58,6 +60,7 @@ class PasswordManager::Options
       show: 'Show the information associate to the given site name',
       add: 'Add a site name and associate username / password to it',
       list: 'List all the site name',
+      tmp: 'Decrypt the file temporary and the re encrypt it.',
     }
   end
 
@@ -69,6 +72,7 @@ class PasswordManager::Options
       show: false,
       add: false,
       list: false,
+      tmp: false
     }
   end
 
