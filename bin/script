@@ -1,0 +1,117 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+
+require 'io/console'
+require 'json'
+
+require 'PasswordManager'
+
+# ENTRY POINT
+def run
+  %i(encode decode list show add).each { |option| send option if PasswordManager::Options.instance.set? option }
+  puts
+rescue JSON::ParserError
+  abort 'Error: the json file provided is invalid'
+end
+
+# TOOLS
+def file_data
+  @file_data ||= File.read PasswordManager::Options.file
+rescue Errno::ENOENT
+  abort 'Error: impossible to open the given file please check the path'
+end
+
+def key_data
+  @key_data ||= File.read PasswordManager::Options.key
+rescue Errno::ENOENT
+  abort 'Error: impossible to open the given key please check the path'
+end
+
+def save data
+  File.write PasswordManager::Options.file, data
+end
+
+def password
+  @password ||= begin
+    print 'Please enter the file password: '
+    password = STDIN.noecho(&:gets).chomp
+    puts "\n\n"
+
+    abort 'Error: the rsa key is not protected by a password' if password.empty?
+
+    password
+  end
+end
+
+def crypter action, data
+  @crypter ||= PasswordManager::Crypter.new password
+
+  @crypter.send "#{action}_base64", data
+rescue OpenSSL::Cipher::CipherError
+  abort 'Error: Invalid password or file'
+end
+
+# ACTION
+def encode
+  save crypter :encrypt, file_data
+
+  puts "#{PasswordManager::Options.file} is encoded"
+end
+
+def decode
+  save crypter :decrypt, file_data
+
+  puts "#{PasswordManager::Options.file} is decoded"
+end
+
+def list
+  data = JSON.parse crypter :decrypt, file_data
+
+  puts "Found #{data.keys.count} site names:"
+  data.keys.each { |key| puts "- #{key}" }
+end
+
+def show
+  data = JSON.parse crypter :decrypt, file_data
+
+  abort "Error: \'#{PasswordManager::Options.show}\' is not a valid site name" if data[PasswordManager::Options.show].nil?
+
+  puts "Data associated to #{PasswordManager::Options.show}:"
+  data[PasswordManager::Options.show].each { |key, value| puts "- #{key}: #{value}"}
+end
+
+def show
+  data = JSON.parse crypter :decrypt, file_data
+
+  abort "Error: \'#{PasswordManager::Options.show}\' is not a valid site name" if data[PasswordManager::Options.show].nil?
+
+  puts "Data associated to #{PasswordManager::Options.show}:"
+  data[PasswordManager::Options.show].each { |key, value| puts "- #{key}: #{value}"}
+end
+
+def add
+  data = JSON.parse crypter :decrypt, file_data
+
+  puts 'You are about to add a new site name:'
+  informations = { sitename: "", username: "", password: "" }
+
+  informations.keys.each do |key|
+    print "#{key}: "
+
+    input = gets.chomp
+    informations[key] = input
+
+    abort "\nError: site name #{input} already exist" if key == :sitename && data[input]
+  end
+
+  site = {}
+  informations.each { |key, value| site[key.to_s] = value if key != :sitename}
+
+  data[informations[:sitename]] = site
+
+  save crypter :encrypt, JSON.pretty_generate(data)
+  puts "\nSite added"
+end
+
+run
