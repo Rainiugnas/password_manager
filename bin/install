@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+`gem build PasswordManager`
+`gem install PasswordManager-0.1.0.gem`
+`rm PasswordManager-0.1.0.gem`
