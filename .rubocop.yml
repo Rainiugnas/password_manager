@@ -1,0 +1,19 @@
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: ()
+    '%i': ()
+
+Style/SingleLineMethods:
+  Enabled: false
+
+Style/MethodDefParentheses:
+  Enabled: false
+
+Style/NestedParenthesizedCalls:
+  Enabled: false
+
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
+Metrics/LineLength:
+  Max: 100
