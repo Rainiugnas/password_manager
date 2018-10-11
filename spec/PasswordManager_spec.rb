@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe PasswordManager do
   it "has a version number" do
     expect(PasswordManager::VERSION).not_to be nil
