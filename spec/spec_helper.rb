@@ -3,7 +3,9 @@
 # rubocop:disable Style/MixinUsage
 
 require 'bundler/setup'
+
 require 'PasswordManager'
+require 'byebug'
 
 include PasswordManager
 include PasswordManager::Crypters
