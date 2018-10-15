@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/MixinUsage
+
 require 'bundler/setup'
 require 'PasswordManager'
+
+include PasswordManager
+include PasswordManager::Crypters
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
