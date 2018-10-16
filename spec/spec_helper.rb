@@ -5,10 +5,12 @@
 require 'bundler/setup'
 
 require 'PasswordManager'
+require 'cli'
 require 'byebug'
 
 include PasswordManager
 include PasswordManager::Crypters
+include Cli
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

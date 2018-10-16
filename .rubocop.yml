@@ -21,3 +21,6 @@ Metrics/LineLength:
 
 Lint/MissingCopEnableDirective:
   Enabled: false
+
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
