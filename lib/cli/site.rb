@@ -1,16 +1,7 @@
 module Cli
-  class Site
-    attr_reader :name, :user, :password
-    attr_reader :error, :success
-
+  class Site < PasswordManager::Site
     def initialize
-      @name = ask_site_name!
-      @user = ask_user_name!
-      @password = Password.new("password: \n").value
-
-      @success = true
-      valid_name!
-      valid_user!
+      super ask_site_name!, ask_user_name!, Password.new("password: \n").value
     end
 
     private
@@ -25,20 +16,6 @@ module Cli
       puts 'username: '
 
       STDIN.gets.chomp
-    end
-
-    def valid_name!
-      return unless @name.empty?
-
-      @success = false
-      @error = 'Error: site name must be present'
-    end
-
-    def valid_user!
-      return unless @user.empty?
-
-      @success = false
-      @error = 'Error: user name must be present'
     end
   end
 end
