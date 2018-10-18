@@ -13,6 +13,7 @@ require 'PasswordManager/exceptions'
 require 'PasswordManager/crypters'
 
 require 'PasswordManager/site'
+require 'PasswordManager/converter'
 
 module PasswordManager
 
