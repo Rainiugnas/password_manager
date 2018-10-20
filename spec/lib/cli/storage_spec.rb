@@ -5,14 +5,14 @@
 RSpec.describe Storage do
   let(:path) { '/path' }
   let(:readable?) { true }
-  let(:writeable?) { true }
+  let(:writable?) { true }
   let(:data) { 'data' }
   let(:storage) { Storage.new path }
 
   before(:each) do
     allow(File).to receive(:read).with(path).and_return data
     allow(File).to receive(:readable?).and_return readable?
-    allow(File).to receive(:writeable?).and_return writeable?
+    allow(File).to receive(:writable?).and_return writable?
   end
 
   describe '.new' do
@@ -33,7 +33,7 @@ RSpec.describe Storage do
     end
 
     context 'when file is not writeable' do
-      let(:writeable?) { false }
+      let(:writable?) { false }
 
       it 'should not success and set an error' do
         expect(storage.success).to be_falsy

@@ -24,6 +24,6 @@ module Cli
 
     private
 
-    def valid_file?; File.writeable?(@path) && File.readable?(@path) end
+    def valid_file?; File.writable?(@path) && File.readable?(@path) end
   end
 end
