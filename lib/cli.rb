@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'PasswordManager'
+require 'password_manager'
 
 require 'cli/input/password'
 require 'cli/input/password_confirmation'

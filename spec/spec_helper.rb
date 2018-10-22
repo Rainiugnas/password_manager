@@ -4,7 +4,7 @@
 
 require 'bundler/setup'
 
-require 'PasswordManager'
+require 'password_manager'
 require 'cli'
 require 'byebug'
 
