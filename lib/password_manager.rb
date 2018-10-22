@@ -13,6 +13,6 @@ require 'password_manager/crypter/base64'
 require 'password_manager/site'
 require 'password_manager/converter'
 
+# Root namespace.
 module PasswordManager
-
 end

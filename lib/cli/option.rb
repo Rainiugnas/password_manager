@@ -2,11 +2,28 @@
 
 require 'optparse'
 
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/BlockLength
+# rubocop:disable Metrics/AbcSize
+
 module Cli
+  # Use to parse the ARGV argument.
+  # The file must be set and one action (encode, decode, list, show, add, tmp) must be set.
+  # @attr_reader [String] file The file path or nil if not set (required)
+  # @attr_reader [Boolean] encode True or false if not set
+  # @attr_reader [Boolean] decode True or false if not set
+  # @attr_reader [String] show Site name to find show or nil if not set
+  # @attr_reader [Boolean] add True or false if not set
+  # @attr_reader [Boolean] tmp True or false if not set
+  #
+  # @attr_reader [String] error Hold the validation error message (nil if no error)
+  # @attr_reader [Boolean] success True if the validation success else false
   class Option
     attr_reader :file, :encode, :decode, :show, :add, :list, :tmp
     attr_reader :success, :error
 
+    # Parse the ARGV and check that the file and the action is set.
+    # Set the success to false and error message if the validation fail.
     def initialize
       @encode = @decode = @add = @list = @tmp = false
       @success = true
@@ -20,9 +37,7 @@ module Cli
 
     private
 
-    # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/BlockLength
-    # rubocop:disable Metrics/AbcSize
+    # @return [OptionParser] Build, set up and return the ARGV parser
     def build_parser
       OptionParser.new do |parser|
         parser.banner = 'Usage: example.rb -f ./filepath [options]'
@@ -83,6 +98,8 @@ module Cli
       end
     end
 
+    # @raise [OptionParser::InvalidOption] When the file is not set
+    # @raise [OptionParser::InvalidOption] When 0 or more than 1 action is set
     def valid_options!
       unless [@encode, @decode, @show, @add, @list, @tmp].one?
         raise OptionParser::InvalidOption, <<~MSG

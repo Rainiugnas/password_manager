@@ -11,8 +11,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Rainiugnas']
   spec.email         = ['aqdtvz9@gmail.com']
 
-  spec.summary       = 'Write a short summary, because RubyGems requires one.'
-  spec.description   = 'Write a longer description or delete this line.'
+  spec.summary       = 'Handle encryption of a json file which contains web site passwords.'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
