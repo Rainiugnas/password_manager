@@ -2,11 +2,12 @@
 
 require 'PasswordManager'
 
+require 'cli/input/password'
+require 'cli/input/password_confirmation'
+require 'cli/input/site'
+require 'cli/input/stop'
+
 require 'cli/option'
-require 'cli/password'
-require 'cli/password_confirmation'
-require 'cli/site'
-require 'cli/stop'
 require 'cli/storage'
 
 module Cli

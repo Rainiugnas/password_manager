@@ -13,6 +13,7 @@ require 'dummies/dummy_crypter'
 include PasswordManager
 include PasswordManager::Crypter
 include Cli
+include Cli::Input
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

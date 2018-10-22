@@ -105,7 +105,7 @@ RSpec.describe Cli do
     let(:new_site) { PasswordManager::Site.new '4', 'user', 'password' }
 
     it 'should add the new site to the file' do
-      expect(Cli::Site).to receive(:new).and_return new_site
+      expect(Cli::Input::Site).to receive(:new).and_return new_site
 
       converter.to_array.push new_site
       expect(File).to receive(:write).with(path, converter.to_crypt)
@@ -117,7 +117,7 @@ RSpec.describe Cli do
       let(:new_site) { PasswordManager::Site.new '', 'user', 'password' }
 
       it 'should print the error' do
-        expect(Cli::Site).to receive(:new).and_return new_site
+        expect(Cli::Input::Site).to receive(:new).and_return new_site
         expect { Cli.run }.to output('Error: site name must be present').to_stdout
       end
     end

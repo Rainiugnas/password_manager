@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Cli::Site do
+RSpec.describe Cli::Input::Site do
   let(:message) { "sitename: \nusername: \npassword: \n" }
   let(:input1) { "site name\n" }
   let(:input2) { "user name\n" }
