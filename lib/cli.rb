@@ -74,8 +74,8 @@ module Cli
     [option, storage, password].each { |object| interupt! object.error unless object.success }
 
     crypters = [
-      PasswordManager::Crypters::Aes.new(password.value),
-      PasswordManager::Crypters::Base64.new
+      PasswordManager::Crypter::Aes.new(password.value),
+      PasswordManager::Crypter::Base64.new
     ]
 
     send find_action(option), storage, crypters, option

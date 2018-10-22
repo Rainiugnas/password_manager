@@ -8,7 +8,7 @@ RSpec.describe Cli do
   let(:site3) { PasswordManager::Site.new '3', 'user', 'password' }
   let(:sites) { [site1, site2, site3] }
   let(:crypter1) { Aes.new password }
-  let(:crypter2) { PasswordManager::Crypters::Base64.new }
+  let(:crypter2) { PasswordManager::Crypter::Base64.new }
   let(:converter) { Converter.from_array sites, [crypter1, crypter2] }
 
   let(:json_file) { converter.to_json }

@@ -4,7 +4,7 @@ require 'openssl'
 require 'digest/sha2'
 
 module PasswordManager
-  module Crypters
+  module Crypter
     class Aes
       def initialize password
         @cipher = OpenSSL::Cipher.new 'AES-256-CBC'

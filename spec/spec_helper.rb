@@ -11,7 +11,7 @@ require 'byebug'
 require 'dummies/dummy_crypter'
 
 include PasswordManager
-include PasswordManager::Crypters
+include PasswordManager::Crypter
 include Cli
 
 RSpec.configure do |config|

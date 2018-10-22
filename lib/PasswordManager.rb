@@ -7,7 +7,7 @@ require 'PasswordManager/version'
 
 require 'PasswordManager/exceptions'
 
-require 'PasswordManager/crypters'
+require 'PasswordManager/crypter'
 
 require 'PasswordManager/site'
 require 'PasswordManager/converter'

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module PasswordManager
-  module Crypters
+  module Crypter
     class Base64
       def encrypt(data) ::Base64.encode64 data end
 

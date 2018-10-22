@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Base64 do
-  let(:crypter) { PasswordManager::Crypters::Base64.new }
+  let(:crypter) { PasswordManager::Crypter::Base64.new }
   let(:data) { 'data' }
   let(:encrypted_data) { crypter.encrypt data }
 
