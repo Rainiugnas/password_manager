@@ -45,7 +45,8 @@ RSpec.describe Cli do
       let(:argv) { %w(-e -f).push path }
 
       it 'should print the error' do
-        expect { Cli.run }.to output('Error: the given file have not read and write right').to_stdout
+        message = 'Error: the given file have not read and write right'
+        expect { Cli.run }.to output(message).to_stdout
       end
     end
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
+
 RSpec.describe Aes do
   let(:aes_1) { Aes.new '1' }
   let(:aes_2) { Aes.new '2' }

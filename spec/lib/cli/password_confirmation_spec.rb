@@ -11,7 +11,7 @@ RSpec.describe PasswordConfirmation do
   before(:each) do
     expect(Password).to receive(:new).with(message).and_return double(value: input1)
     expect(Password).to(
-      receive(:new).with('Please enter password confirmation: ').and_return double(value: input2)
+      receive(:new).with("Please enter password confirmation: \n").and_return double(value: input2)
     )
   end
 

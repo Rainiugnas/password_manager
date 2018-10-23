@@ -44,7 +44,7 @@ module PasswordManager
 
     # Build the converter from site array
     # @param data [Array(Site)] Site to convert
-    # @param crypterse [Array(Crypter)] Crypters to use to encrypt / decrypt
+    # @param crypters [Array(Crypter)] Crypters to use to encrypt / decrypt
     # @return [Converter] Converter with the site array from the given data
     def self.from_array data, crypters; Converter.new data, crypters end
     # @!endgroup

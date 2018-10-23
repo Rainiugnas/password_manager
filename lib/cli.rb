@@ -2,11 +2,7 @@
 
 require 'password_manager'
 
-require 'cli/input/password'
-require 'cli/input/password_confirmation'
-require 'cli/input/site'
-require 'cli/input/stop'
-
+require 'cli/input'
 require 'cli/option'
 require 'cli/storage'
 
@@ -21,14 +17,9 @@ module Cli
   # Run Cli.run, it use the ARGV arguments to find and execute an action.
   # Catch all PasswordManager::PasswordManagerError to stop the execution and print the error.
   def self.run
-    option = Option.new
-    interupt! option.error unless option.success
-
-    storage = Storage.new option.file
-    interupt! storage.error unless storage.success
-
-    password = Input::PasswordConfirmation.new "Enter your password: \n"
-    interupt! password.error unless password.success
+    option = success! Option.new
+    storage = success!(Storage.new option.file)
+    password = success!(Input::PasswordConfirmation.new "Enter your password: \n")
 
     crypters = [
       PasswordManager::Crypter::Aes.new(password.value),
@@ -40,11 +31,28 @@ module Cli
     print e.message
   end
 
+  # Check that the given object have true success and return the object.
+  # @param [Object] object Object to check, must respond to success and error method
+  # @raise [PasswordManager::PasswordManagerError] When success is false
+  def self.success! object
+    return object if object.success
+
+    interupt! object.error
+  end
+
+  # Print in std out the data of the given site
+  # @param [Site] site
+  def self.display_site site
+    puts "Data associated to #{site.name}:"
+    puts "- username: #{site.user}"
+    puts "- password: #{site.password}"
+  end
+
   # @!group Actions
   # Encrypt the file (json -> crypted)
   # @param storage [Storage] Hold and handle the data of the given file
   # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
-  # @param option [Option] Parsed ARGV arguments
+  # @param _option [Option] Parsed ARGV arguments
   def self.encrypt storage, crypters, _option
     storage.data = PasswordManager::Converter.from_json(storage.data, crypters).to_crypt
     storage.save!
@@ -53,7 +61,7 @@ module Cli
   # Decrypt the file (crypted -> json)
   # @param storage [Storage] Hold and handle the data of the given file
   # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
-  # @param option [Option] Parsed ARGV argumentss
+  # @param _option [Option] Parsed ARGV argumentss
   def self.decrypt storage, crypters, _option
     storage.data = PasswordManager::Converter.from_crypt(storage.data, crypters).to_json
     storage.save!
@@ -62,7 +70,7 @@ module Cli
   # List all site name (crypted -> crypted)
   # @param storage [Storage] Hold and handle the data of the given file
   # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
-  # @param option [Option] Parsed ARGV arguments
+  # @param _option [Option] Parsed ARGV arguments
   def self.list storage, crypters, _option
     sites = PasswordManager::Converter.from_crypt(storage.data, crypters).to_array
 
@@ -80,18 +88,15 @@ module Cli
 
     interupt! "Error: '#{option.show}' is not a valid site name" if target.nil?
 
-    puts "Data associated to #{target.name}:"
-    puts "- username: #{target.user}"
-    puts "- password: #{target.password}"
+    display_site target
   end
 
   # As the user to enter site data and save it (crypted -> crypted)
   # @param storage [Storage] Hold and handle the data of the given file
   # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
-  # @param option [Option] Parsed ARGV arguments
+  # @param _option [Option] Parsed ARGV arguments
   def self.add storage, crypters, _option
-    site = Input::Site.new
-    interupt! site.error unless site.success
+    site = success! Input::Site.new
 
     converter = PasswordManager::Converter.from_crypt storage.data, crypters
     converter = PasswordManager::Converter.from_array(converter.to_array + [site], crypters)
@@ -103,7 +108,7 @@ module Cli
   # Decrypt the file and wait for input, then encrypt the file (crypted -> crypted)
   # @param storage [Storage] Hold and handle the data of the given file
   # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
-  # @param option [Option] Parsed ARGV arguments
+  # @param _option [Option] Parsed ARGV arguments
   def self.tmp storage, crypters, _option
     decrypt storage, crypters, nil
 
@@ -121,5 +126,6 @@ module Cli
     end
   end
 
-  private_class_method :find_action, :encrypt, :decrypt, :add, :show, :list, :tmp
+  private_class_method :find_action, :encrypt, :decrypt, :add, :show,
+                       :list, :tmp, :success!, :display_site
 end
