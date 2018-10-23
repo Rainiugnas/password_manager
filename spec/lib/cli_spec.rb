@@ -54,7 +54,7 @@ RSpec.describe Cli do
 
       it 'should print the error' do
         message = <<~MSG
-          invalid option: you must set one (no more) of the following options: --encode, --decode, --show, --add, --tmp and --list
+          invalid option: you must set one (no more) of the following options: --encrypt, --decrypt, --show, --add, --tmp and --list
         MSG
 
         expect { Cli.run }.to output(message).to_stdout
@@ -70,22 +70,22 @@ RSpec.describe Cli do
       end
     end
 
-    describe 'encode' do
+    describe 'encrypt' do
       let(:argv) { %w(-e -f).push path }
       let(:file) { json_file }
 
-      it 'should encode the file' do
+      it 'should encrypt the file' do
         expect(File).to receive(:write).with path, crypt_file
 
         Cli.run
       end
     end
 
-    describe 'decode' do
+    describe 'decrypt' do
       let(:argv) { %w(-d -f).push path }
       let(:file) { crypt_file }
 
-      it 'should decode the file' do
+      it 'should decrypt the file' do
         expect(File).to receive(:write).with path, json_file
 
         Cli.run
@@ -158,7 +158,7 @@ RSpec.describe Cli do
     describe 'tmp' do
       let(:argv) { %w(-t -f).push path }
 
-      it 'should decode the file and after the stop re encode it' do
+      it 'should decrypt the file and after the stop re encrypt it' do
         expect(File).to receive(:read).with(path).and_return crypt_file
         expect(File).to receive(:write).with path, json_file
 

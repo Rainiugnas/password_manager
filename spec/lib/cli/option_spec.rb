@@ -23,11 +23,11 @@ RSpec.describe Option do
     include_examples :set_option, %w(-f path), :file, 'path'
     include_examples :set_option, %w(--file path), :file, 'path'
 
-    include_examples :set_option, %w(-e), :encode, true
-    include_examples :set_option, %w(--encode), :encode, true
+    include_examples :set_option, %w(-e), :encrypt, true
+    include_examples :set_option, %w(--encrypt), :encrypt, true
 
-    include_examples :set_option, %w(-d), :decode, true
-    include_examples :set_option, %w(--decode), :decode, true
+    include_examples :set_option, %w(-d), :decrypt, true
+    include_examples :set_option, %w(--decrypt), :decrypt, true
 
     include_examples :set_option, %w(-s site), :show, 'site'
     include_examples :set_option, %w(--show site), :show, 'site'
@@ -48,8 +48,8 @@ RSpec.describe Option do
         expect(option.file).to be_nil
         expect(option.show).to be_nil
         expect(option.file).to be_falsy
-        expect(option.encode).to be_falsy
-        expect(option.decode).to be_falsy
+        expect(option.encrypt).to be_falsy
+        expect(option.decrypt).to be_falsy
         expect(option.list).to be_falsy
         expect(option.add).to be_falsy
         expect(option.tmp).to be_falsy
@@ -91,7 +91,7 @@ RSpec.describe Option do
       it 'should not success' do
         expect(option.success).to be_falsy
         expect(option.error).to eq <<~MSG
-          invalid option: you must set one (no more) of the following options: --encode, --decode, --show, --add, --tmp and --list
+          invalid option: you must set one (no more) of the following options: --encrypt, --decrypt, --show, --add, --tmp and --list
         MSG
       end
     end
@@ -102,7 +102,7 @@ RSpec.describe Option do
       it 'should not success' do
         expect(option.success).to be_falsy
         expect(option.error).to eq <<~MSG
-          invalid option: you must set one (no more) of the following options: --encode, --decode, --show, --add, --tmp and --list
+          invalid option: you must set one (no more) of the following options: --encrypt, --decrypt, --show, --add, --tmp and --list
         MSG
       end
     end

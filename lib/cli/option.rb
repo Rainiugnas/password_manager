@@ -8,10 +8,10 @@ require 'optparse'
 
 module Cli
   # Use to parse the ARGV argument.
-  # The file must be set and one action (encode, decode, list, show, add, tmp) must be set.
+  # The file must be set and one action (encrypt, decrypt, list, show, add, tmp) must be set.
   # @attr_reader [String] file The file path or nil if not set (required)
-  # @attr_reader [Boolean] encode True or false if not set
-  # @attr_reader [Boolean] decode True or false if not set
+  # @attr_reader [Boolean] encrypt True or false if not set
+  # @attr_reader [Boolean] decrypt True or false if not set
   # @attr_reader [String] show Site name to find show or nil if not set
   # @attr_reader [Boolean] add True or false if not set
   # @attr_reader [Boolean] tmp True or false if not set
@@ -19,13 +19,13 @@ module Cli
   # @attr_reader [String] error Hold the validation error message (nil if no error)
   # @attr_reader [Boolean] success True if the validation success else false
   class Option
-    attr_reader :file, :encode, :decode, :show, :add, :list, :tmp
+    attr_reader :file, :encrypt, :decrypt, :show, :add, :list, :tmp
     attr_reader :success, :error
 
     # Parse the ARGV and check that the file and the action is set.
     # Set the success to false and error message if the validation fail.
     def initialize
-      @encode = @decode = @add = @list = @tmp = false
+      @encrypt = @decrypt = @add = @list = @tmp = false
       @success = true
 
       build_parser.parse!
@@ -51,15 +51,15 @@ module Cli
 
         parser.on(
           '-e',
-          '--encode',
-          'Encode the file with the rsa key'
-        ) { @encode = true }
+          '--encrypt',
+          'Encrypt the file with the rsa key'
+        ) { @encrypt = true }
 
         parser.on(
           '-d',
-          '--decode',
-          'Decode the file with the rsa key'
-        ) { @decode = true }
+          '--decrypt',
+          'Decrypt the file with the rsa key'
+        ) { @decrypt = true }
 
         parser.on(
           '-s',
@@ -92,7 +92,7 @@ module Cli
 
         parser.separator <<~MSG
 
-          The options --encode, --decode, --show, --add, --tmp and --list must be associate with a specific --file.
+          The options --encrypt, --decrypt, --show, --add, --tmp and --list must be associate with a specific --file.
           It's a json file, the key is the site name and each key have an username and a password field."
         MSG
       end
@@ -101,9 +101,9 @@ module Cli
     # @raise [OptionParser::InvalidOption] When the file is not set
     # @raise [OptionParser::InvalidOption] When 0 or more than 1 action is set
     def valid_options!
-      unless [@encode, @decode, @show, @add, @list, @tmp].one?
+      unless [@encrypt, @decrypt, @show, @add, @list, @tmp].one?
         raise OptionParser::InvalidOption, <<~MSG
-          you must set one (no more) of the following options: --encode, --decode, --show, --add, --tmp and --list
+          you must set one (no more) of the following options: --encrypt, --decrypt, --show, --add, --tmp and --list
         MSG
       end
 

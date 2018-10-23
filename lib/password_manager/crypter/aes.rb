@@ -3,12 +3,11 @@
 require 'openssl'
 require 'digest/sha2'
 
-# TODO: harmonize vocabulary: decode / encode -> decrypt / encrypt
 module PasswordManager
   module Crypter
     # Handle AES format
     class Aes
-      # Set the password to salt encode / decode
+      # Set the password to salt encrypt / decrypt
       # @param [String] password
       def initialize password
         @cipher = OpenSSL::Cipher.new 'AES-256-CBC'

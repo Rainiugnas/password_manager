@@ -38,27 +38,27 @@ module Cli
   end
 
   # @!group Actions
-  # Encode the file (json -> crypted)
+  # Encrypt the file (json -> crypted)
   # @param storage [Storage] Hold and handle the data of the given file
-  # @param crypters [Arrays(Crypter)] Crypters to encode / decode the data
+  # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
   # @param option [Option] Parsed ARGV arguments
-  def self.encode storage, crypters, _option
+  def self.encrypt storage, crypters, _option
     storage.data = Converter.from_json(storage.data, crypters).to_crypt
     storage.save!
   end
 
-  # Decode the file (crypted -> json)
+  # Decrypt the file (crypted -> json)
   # @param storage [Storage] Hold and handle the data of the given file
-  # @param crypters [Arrays(Crypter)] Crypters to encode / decode the data
+  # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
   # @param option [Option] Parsed ARGV argumentss
-  def self.decode storage, crypters, _option
+  def self.decrypt storage, crypters, _option
     storage.data = Converter.from_crypt(storage.data, crypters).to_json
     storage.save!
   end
 
   # List all site name (crypted -> crypted)
   # @param storage [Storage] Hold and handle the data of the given file
-  # @param crypters [Arrays(Crypter)] Crypters to encode / decode the data
+  # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
   # @param option [Option] Parsed ARGV arguments
   def self.list storage, crypters, _option
     sites = Converter.from_crypt(storage.data, crypters).to_array
@@ -69,7 +69,7 @@ module Cli
 
   # Find the the site and display it's data (crypted -> crypted)
   # @param storage [Storage] Hold and handle the data of the given file
-  # @param crypters [Arrays(Crypter)] Crypters to encode / decode the data
+  # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
   # @param option [Option] Parsed ARGV arguments, hold the site to find
   def self.show storage, crypters, option
     sites = Converter.from_crypt(storage.data, crypters).to_array
@@ -84,7 +84,7 @@ module Cli
 
   # As the user to enter site data and save it (crypted -> crypted)
   # @param storage [Storage] Hold and handle the data of the given file
-  # @param crypters [Arrays(Crypter)] Crypters to encode / decode the data
+  # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
   # @param option [Option] Parsed ARGV arguments
   def self.add storage, crypters, _option
     site = Site.new
@@ -97,26 +97,26 @@ module Cli
     storage.save!
   end
 
-  # Decode the file and wait for input, then encode the file (crypted -> crypted)
+  # Decrypt the file and wait for input, then encrypt the file (crypted -> crypted)
   # @param storage [Storage] Hold and handle the data of the given file
-  # @param crypters [Arrays(Crypter)] Crypters to encode / decode the data
+  # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
   # @param option [Option] Parsed ARGV arguments
   def self.tmp storage, crypters, _option
-    decode storage, crypters, nil
+    decrypt storage, crypters, nil
 
     Stop.new
 
     storage.reload
-    encode storage, crypters, nil
+    encrypt storage, crypters, nil
   end
 
-  # Find the option action to execute (encode, decode, add, show, list, tmp)
+  # Find the option action to execute (encrypt, decrypt, add, show, list, tmp)
   # @param option [Option] Hold the action to execute from ARGV
   def self.find_action option
-    %i(encode decode add show list tmp).each do |action|
+    %i(encrypt decrypt add show list tmp).each do |action|
       return action if option.send action
     end
   end
 
-  private_class_method :find_action, :encode, :decode, :add, :show, :list, :tmp
+  private_class_method :find_action, :encrypt, :decrypt, :add, :show, :list, :tmp
 end

@@ -1,21 +1,21 @@
 # frozen_string_literal: true
 
 module PasswordManager
-  # Convert data between several format (site array, json, encoded)
-  # Use the given crypters to encode / decode.
+  # Convert data between several format (site array, json, encrypted)
+  # Use the given crypters to encrypt / decrypt.
   #
   # Converter is build from formated data,
   #   parse and store the data and can be re-use to re-format the data
   #
-  # Encoding apply the first crypter and apply the next one.
-  # Decoding apply the last crypter and apply the previous one.
+  # Encrypting apply the first crypter and apply the next one.
+  # Decrypting apply the last crypter and apply the previous one.
   # @private @attr [Array(Site)] data All the site from the given data
   # @private @attr [Array(Crypter)] crypters Store the crypters to apply
   class Converter
     # @!group From
     # Build the converter from crypted data
-    # @param data [String] Encoded data
-    # @param crypterse [Array(Crypter)] Crypters to use to encode / decode
+    # @param data [String] Encrypted data
+    # @param crypters [Array(Crypter)] Crypters to use to encrypt / decrypt
     # @return [Converter] Converter with the site array from the given data
     def self.from_crypt data, crypters
       crypters.reverse_each { |crypter| data = crypter.decrypt data }
@@ -25,7 +25,7 @@ module PasswordManager
 
     # Build the converter from json data
     # @param data [String] Json data
-    # @param crypterse [Array(Crypter)] Crypters to use to encode / decode
+    # @param crypters [Array(Crypter)] Crypters to use to encrypt / decrypt
     # @raise [ConverterError] When the data have json formating error
     # @return [Converter] Converter with the site array from the given data
     def self.from_json data, crypters
@@ -44,7 +44,7 @@ module PasswordManager
 
     # Build the converter from site array
     # @param data [Array(Site)] Site to convert
-    # @param crypterse [Array(Crypter)] Crypters to use to encode / decode
+    # @param crypterse [Array(Crypter)] Crypters to use to encrypt / decrypt
     # @return [Converter] Converter with the site array from the given data
     def self.from_array data, crypters; Converter.new data, crypters end
     # @!endgroup
@@ -70,7 +70,7 @@ module PasswordManager
       JSON.generate hash
     end
 
-    # @return [String] The data formatted in to encoded string
+    # @return [String] The data formatted in to encrypted string
     def to_crypt
       data = to_json
 
