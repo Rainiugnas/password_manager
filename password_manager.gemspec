@@ -17,7 +17,14 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
+
   spec.bindir        = 'bin/exe'
   spec.executables   = spec.files.grep(%r{^bin/exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
+
+  # DEPENDENCIES
+
+  # Tools
+  # Monkey patch basic classes like Hash, Array, ... to add extra methods
+  spec.add_runtime_dependency 'activesupport', '~> 5.1.6'
 end

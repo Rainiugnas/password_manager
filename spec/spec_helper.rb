@@ -2,6 +2,10 @@
 
 # rubocop:disable Style/MixinUsage
 
+# Launch test coverage
+require 'simplecov'
+SimpleCov.start
+
 require 'bundler/setup'
 
 # Lib
