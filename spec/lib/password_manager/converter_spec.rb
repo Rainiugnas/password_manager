@@ -3,18 +3,6 @@
 require 'json'
 
 RSpec.describe Converter do
-  RSpec::Matchers.define :match_site_array do |expected|
-    match do |actual|
-      return false if actual.size != expected.size
-
-      expected.each_with_index.map do |site, index|
-        site.name == actual[index].name &&
-          site.user == actual[index].user &&
-          site.password == actual[index].password
-      end.all?
-    end
-  end
-
   let(:crypter1) { DummyCrypter.new 'c1' }
   let(:crypter2) { DummyCrypter.new 'c1v2' }
   let(:crypters) { [crypter1, crypter2] }

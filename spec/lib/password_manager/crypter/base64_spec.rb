@@ -5,6 +5,12 @@ RSpec.describe Base64 do
   let(:data) { 'data' }
   let(:encrypted_data) { crypter.encrypt data }
 
+  describe 'interface' do
+    it 'should implement crypter interface' do
+      expect(crypter).to be_crypter
+    end
+  end
+
   describe '#encrypt' do
     it 'should encrypt the given data' do
       expect(encrypted_data).not_to eq data

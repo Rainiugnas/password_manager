@@ -3,7 +3,6 @@
 require 'openssl'
 require 'digest/sha2'
 
-# TODO: use test to check encode and decode method (interface check)
 # TODO: harmonize vocabulary: decode / encode -> decrypt / encrypt
 module PasswordManager
   module Crypter

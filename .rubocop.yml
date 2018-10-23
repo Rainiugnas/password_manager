@@ -24,3 +24,6 @@ Lint/MissingCopEnableDirective:
 
 Lint/AmbiguousRegexpLiteral:
   Enabled: false
+
+Layout/EmptyLineBetweenDefs:
+  Enabled: false

@@ -6,6 +6,12 @@ RSpec.describe Aes do
   let(:data) { 'data' }
   let(:encrypted_data) { aes_1.encrypt data }
 
+  describe 'interface' do
+    it 'should implement crypter interface' do
+      expect(aes_1).to be_crypter
+    end
+  end
+
   describe '#encrypt' do
     it 'should encrypt the given data' do
       expect(encrypted_data).not_to eq data

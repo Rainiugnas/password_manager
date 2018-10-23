@@ -4,12 +4,17 @@
 
 require 'bundler/setup'
 
+# Lib
 require 'password_manager'
 require 'cli'
 require 'byebug'
 
+# Spec tools
 require 'dummies/dummy_crypter'
+require 'matcher/match_site_array'
+require 'matcher/be_crypter'
 
+# Use the lib element without namespace
 include PasswordManager
 include PasswordManager::Crypter
 include Cli
