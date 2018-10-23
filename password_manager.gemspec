@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Rainiugnas']
   spec.email         = ['aqdtvz9@gmail.com']
 
-  spec.summary       = 'Handle encryption of a json file which contains web site passwords.'
+  spec.summary       = 'Handle encryption of json data which contains web site passwords.'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

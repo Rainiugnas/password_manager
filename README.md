@@ -1,38 +1,71 @@
-# PasswordManager
+# password_manager
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/PasswordManager`. To experiment with that code, run `bin/console` for an interactive prompt.
+Cli to handle encryption of a json file data which contains web site passwords.  
+It encrypt the file in AES-256-CBC with the given password then format it in base64.
+There are no way to recover the file data if the password is lose so be careful.
 
-TODO: Delete this and the text above, and describe your gem
+### Requirement
+- Ruby 2.4
+- Bundler 1.16.0
 
-## Installation
+### Installation
 
-Add this line to your application's Gemfile:
+As the gem is only present in Github you must clone it in order to install.
+
+```sh
+  git clone https://github.com/Rainiugnas/password_manager
+  cd password_manager
+
+  bundle install
+  bin/install
+```
 
 ```ruby
 gem 'PasswordManager'
 ```
 
-And then execute:
+### Usage
 
-    $ bundle
+Once the cli installed, you can start to use it.
+First build an empty json file (let's say password.json):
 
-Or install it yourself as:
+```json
+  {}
+```
 
-    $ gem install PasswordManager
+Then encrypt it by running: `password_manager -f password.json --encrypt`.
 
-## Usage
+Now that the file is build and encrypted you can use the following command on it.
 
-TODO: Write usage instructions here
+- `decrypt` to convert the file in json format (you must re encrypt it in order to use the commands)
+- `list` to get all the site name present in the file
+- `show` to display a specific site the data
+- `add` to add a new site in the file (it will ask you the site data)
+- `tmp` to decrypt the file and press enter to encrypt it, useful to manually edit the file (if any error is made in the file the encryption will fail).
 
-## Development
+All this commands require an encrypted file and leave the file encrypted (except for decrypt).
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+#### Site format
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Site attributes:
 
-## Contributing
+- `name` must be unique per file and is mandatory
+- `user` user name, is mandatory
+- `password` can be blank
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/PasswordManager.
+Example of valid json file.
+```json
+  "site.com": {
+    "username": "foo",
+    "password": "bar"
+  },
+  "another-site.com": {
+    "username": "foo",
+    "password": "bar"
+  }
+```
+
+Be sure to alway have valid json file and site else it will fail to parse.
 
 ## License
 
