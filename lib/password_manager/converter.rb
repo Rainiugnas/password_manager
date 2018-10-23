@@ -55,10 +55,9 @@ module PasswordManager
       @data = data
     end
 
-    # TODO: freeze the array to avoid concurrent error
     # @!group To
     # @return [Site(Array)] The raw site array
-    def to_array; @data end
+    def to_array; @data.freeze end
 
     # @return [String] The data formated into json string
     def to_json

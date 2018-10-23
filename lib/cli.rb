@@ -91,7 +91,7 @@ module Cli
     interupt! site.error unless site.success
 
     converter = Converter.from_crypt storage.data, crypters
-    converter.to_array.push site
+    converter = Converter.from_array(converter.to_array + [site], crypters)
 
     storage.data = converter.to_crypt
     storage.save!

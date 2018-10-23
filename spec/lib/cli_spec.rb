@@ -16,7 +16,8 @@ RSpec.describe Cli do
     let(:sites) { [site1, site2, site3] }
     let(:crypter1) { Aes.new password }
     let(:crypter2) { PasswordManager::Crypter::Base64.new }
-    let(:converter) { Converter.from_array sites, [crypter1, crypter2] }
+    let(:crypters) { [crypter1, crypter2] }
+    let(:converter) { Converter.from_array sites, crypters }
 
     let(:json_file) { converter.to_json }
     let(:crypt_file) { converter.to_crypt }
@@ -114,8 +115,8 @@ RSpec.describe Cli do
       it 'should add the new site to the file' do
         expect(Cli::Input::Site).to receive(:new).and_return new_site
 
-        converter.to_array.push new_site
-        expect(File).to receive(:write).with(path, converter.to_crypt)
+        udpdated_converter = Converter.from_array(converter.to_array + [new_site], crypters)
+        expect(File).to receive(:write).with(path, udpdated_converter.to_crypt)
 
         Cli.run
       end
