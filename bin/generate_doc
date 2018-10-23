@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+yard doc -o doc/code

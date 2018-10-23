@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+echo 'Documentation:'
+yard stats --list-undoc
+
+echo 'Coding style:'
+rubocop
+
+echo 'Test:'
+rspec spec
