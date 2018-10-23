@@ -93,7 +93,7 @@ module Cli
         parser.separator <<~MSG
 
           The options --encrypt, --decrypt, --show, --add, --tmp and --list must be associate with a specific --file.
-          It's a json file, the key is the site name and each key have an username and a password field."
+          It's a json file, the key is the site name and each key have an username and a password field.
         MSG
       end
     end

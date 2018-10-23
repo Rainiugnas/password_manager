@@ -22,10 +22,13 @@ module Cli
   # Catch all PasswordManager::PasswordManagerError to stop the execution and print the error.
   def self.run
     option = Option.new
-    storage = Storage.new option.file
-    password = PasswordConfirmation.new
+    interupt! option.error unless option.success
 
-    [option, storage, password].each { |object| interupt! object.error unless object.success }
+    storage = Storage.new option.file
+    interupt! storage.error unless storage.success
+
+    password = PasswordConfirmation.new
+    interupt! password.error unless password.success
 
     crypters = [
       PasswordManager::Crypter::Aes.new(password.value),
