@@ -27,7 +27,7 @@ module Cli
     storage = Storage.new option.file
     interupt! storage.error unless storage.success
 
-    password = PasswordConfirmation.new
+    password = Input::PasswordConfirmation.new "Enter your password: \n"
     interupt! password.error unless password.success
 
     crypters = [
@@ -46,7 +46,7 @@ module Cli
   # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
   # @param option [Option] Parsed ARGV arguments
   def self.encrypt storage, crypters, _option
-    storage.data = Converter.from_json(storage.data, crypters).to_crypt
+    storage.data = PasswordManager::Converter.from_json(storage.data, crypters).to_crypt
     storage.save!
   end
 
@@ -55,7 +55,7 @@ module Cli
   # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
   # @param option [Option] Parsed ARGV argumentss
   def self.decrypt storage, crypters, _option
-    storage.data = Converter.from_crypt(storage.data, crypters).to_json
+    storage.data = PasswordManager::Converter.from_crypt(storage.data, crypters).to_json
     storage.save!
   end
 
@@ -64,7 +64,7 @@ module Cli
   # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
   # @param option [Option] Parsed ARGV arguments
   def self.list storage, crypters, _option
-    sites = Converter.from_crypt(storage.data, crypters).to_array
+    sites = PasswordManager::Converter.from_crypt(storage.data, crypters).to_array
 
     puts "Found #{sites.count} sites names:"
     sites.each { |site| puts site.name }
@@ -75,7 +75,7 @@ module Cli
   # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
   # @param option [Option] Parsed ARGV arguments, hold the site to find
   def self.show storage, crypters, option
-    sites = Converter.from_crypt(storage.data, crypters).to_array
+    sites = PasswordManager::Converter.from_crypt(storage.data, crypters).to_array
     target = sites.select { |site| site.name == option.show }.try :first
 
     interupt! "Error: '#{option.show}' is not a valid site name" if target.nil?
@@ -90,11 +90,11 @@ module Cli
   # @param crypters [Arrays(Crypter)] Crypters to encrypt / decrypt the data
   # @param option [Option] Parsed ARGV arguments
   def self.add storage, crypters, _option
-    site = Site.new
+    site = Input::Site.new
     interupt! site.error unless site.success
 
-    converter = Converter.from_crypt storage.data, crypters
-    converter = Converter.from_array(converter.to_array + [site], crypters)
+    converter = PasswordManager::Converter.from_crypt storage.data, crypters
+    converter = PasswordManager::Converter.from_array(converter.to_array + [site], crypters)
 
     storage.data = converter.to_crypt
     storage.save!
@@ -107,7 +107,7 @@ module Cli
   def self.tmp storage, crypters, _option
     decrypt storage, crypters, nil
 
-    Stop.new
+    Input::Stop.new "Press enter to continue.\n"
 
     storage.reload
     encrypt storage, crypters, nil

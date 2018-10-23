@@ -26,7 +26,7 @@ module Cli
       # Set success to true if password is the same than confirmation.
       # Else set success to false and add error message.
       def confirm_value!
-        confirmation = Password.new 'Please enter password confirmation: '
+        confirmation = Password.new "Please enter password confirmation: \n"
 
         if value == confirmation.value
           @success = true
