@@ -47,11 +47,14 @@ All this commands require an encrypted file and leave the file encrypted (except
 
 #### Site format
 
-Site attributes:
+Site fixe attributes:
 
-- `name` must be unique per file and is mandatory
-- `user` user name, is mandatory
+- `name` must be unique per file
+- `username` user name
 - `password` can be blank
+
+A site can also have any other attribute that you want.  
+Note that a site must have a name and at least an username or an email
 
 Example of valid json file.
 ```json
@@ -61,7 +64,9 @@ Example of valid json file.
   },
   "another-site.com": {
     "username": "foo",
-    "password": "bar"
+    "password": "bar",
+    "notes": ["lorem", "ipsum"],
+    "email": "toto@tata.titi"
   }
 ```
 
