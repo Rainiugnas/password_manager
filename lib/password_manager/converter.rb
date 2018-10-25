@@ -33,7 +33,9 @@ module PasswordManager
         sites = JSON.parse data
 
         sites.each do |name, values|
-          result.push Site.new name, values['username'], values['password']
+          extra = values.except 'username', 'password'
+
+          result.push Site.new name, values['username'], values['password'], extra
         end
       end
 
@@ -63,7 +65,7 @@ module PasswordManager
     def to_json
       hash = {}.tap do |result|
         to_array.each do |site|
-          result[site.name] = { 'username' => site.user, 'password' => site.password }
+          result[site.name] = site.extra.merge 'username' => site.user, 'password' => site.password
         end
       end
 

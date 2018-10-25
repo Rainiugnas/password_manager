@@ -9,7 +9,8 @@ RSpec::Matchers.define :match_site_array do |expected|
     expected.each_with_index.map do |site, index|
       site.name == actual[index].name &&
         site.user == actual[index].user &&
-        site.password == actual[index].password
+        site.password == actual[index].password &&
+        site.extra == actual[index].extra
     end.all?
   end
 end

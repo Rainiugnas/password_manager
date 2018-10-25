@@ -9,9 +9,13 @@ RSpec.describe Converter do
   let(:crypter2) { DummyCrypter.new 'c1v2' }
   let(:crypters) { [crypter1, crypter2] }
 
-  let(:site) { PasswordManager::Site.new 'name', 'user', 'password' }
+  let(:site) { PasswordManager::Site.new 'name', 'user', 'password', 'email' => 'user_email' }
   let(:array) { [site] }
-  let(:json) { JSON.generate 'name' => { 'username' => 'user', 'password' => 'password' } }
+  let(:json) do
+    JSON.generate 'name' => {
+      'email': 'user_email', 'username' => 'user', 'password' => 'password'
+    }
+  end
   let(:encrypted_data) { "c1v2:c1:#{json}" }
 
   let(:converter) { Converter.from_array array, crypters }
