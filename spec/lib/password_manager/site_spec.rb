@@ -29,24 +29,36 @@ RSpec.describe PasswordManager::Site do
       end
     end
 
-    context 'when name is not present' do
-      it 'should fail' do
-        ['', nil].each do |name|
-          site = described_class.new name, user, password
+    describe 'name validation' do
+      context 'when name is not present' do
+        it 'should fail' do
+          ['', nil].each do |name|
+            site = described_class.new name, user, password
 
-          expect(site.success).to be_falsy
-          expect(site.error).to eq 'Error: site name must be present'
+            expect(site.success).to be_falsy
+            expect(site.error).to eq 'Error: site name must be present'
+          end
         end
       end
     end
 
-    context 'when user is not present' do
-      it 'should fail' do
-        ['', nil].each do |user|
-          site = described_class.new name, user, password
+    describe 'user and extra email validation' do
+      context 'when extra email is present but not user' do
+        let(:extra) { { 'email' => 'user_email' } }
 
-          expect(site.success).to be_falsy
-          expect(site.error).to eq 'Error: user name must be present'
+        it 'should success' do
+          expect(site.success).to be_truthy
+        end
+      end
+
+      context 'when user or email is not present' do
+        it 'should fail' do
+          ['', nil].each do |user|
+            site = described_class.new name, user, password
+
+            expect(site.success).to be_falsy
+            expect(site.error).to eq 'Error: user name or extra email must be present'
+          end
         end
       end
     end

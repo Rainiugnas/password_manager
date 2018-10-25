@@ -25,7 +25,7 @@ module PasswordManager
 
       @success = true
       valid_name!
-      valid_user!
+      valid_user_or_email!
     end
 
     private
@@ -41,11 +41,11 @@ module PasswordManager
 
     # Check if the user is present
     # @return [Boolean] True if the user is present else false
-    def valid_user!
-      return unless @user.blank?
+    def valid_user_or_email!
+      return unless @user.blank? && @extra['email'].blank?
 
       @success = false
-      @error = 'Error: user name must be present'
+      @error = 'Error: user name or extra email must be present'
     end
   end
 end
