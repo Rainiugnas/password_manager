@@ -11,6 +11,7 @@ require 'bundler/setup'
 # Lib
 require 'password_manager'
 require 'cli'
+require 'cli_file_crypter'
 require 'byebug'
 
 # Spec tools
