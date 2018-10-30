@@ -72,6 +72,23 @@ Example of valid json file.
 
 Be sure to alway have valid json file and site else it will fail to parse.
 
+#### File crypter
+
+`file_crypter` is another executable provided by PasswordManager.
+Use to encrypt / decryt any format of file in aes / base 64.
+
+Only the option encrypt (-e --encrypt) / decript (-d --decrypt) are available.
+Like password_manager a file must be provided trough file option (-f --file).
+
+Example:
+
+```sh
+  echo 'foo bar' > toto.txt
+  file_crypter -f toto.txt -e # toto.txt is now encrypted
+
+  file_crypter -f toto.txt -d # toto.txt is decrypted and contains the previous data "foo bar"
+```
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
