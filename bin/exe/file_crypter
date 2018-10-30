@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'bundler/setup'
+
+require 'cli_file_crypter'
+
+CliFileCrypter.run
